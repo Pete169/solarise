@@ -17,6 +17,19 @@ const CONFIG = {
   // Keep true for your WhatsApp-first workflow. If captureEndpoint is empty,
   // WhatsApp is the only channel, so leave this true.
   openWhatsAppOnSubmit: true,
+
+  // ---- ANALYTICS & AD TRACKING (dormant until you add IDs) ----
+  analytics: {
+    // Google Analytics 4 Measurement ID — get it free at analytics.google.com
+    // (Admin → Data streams → your web stream). Looks like "G-XXXXXXXXXX".
+    ga4Id: "",
+    // Meta (Facebook/Instagram) Pixel ID — from business.facebook.com → Events Manager.
+    // A numeric string like "1234567890123456". Needed for retargeting ads.
+    metaPixelId: "",
+    // Show a cookie-consent banner and only load the trackers after "Accept".
+    // Privacy-friendly default. Set false to load immediately (not recommended).
+    requireConsent: true,
+  },
 };
 
 /* ---------- SYSTEM PRICING MODEL (edit to match your real prices) ---------- */
@@ -58,8 +71,71 @@ navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
 const waHref = (msg) => `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(msg || CONFIG.whatsappMessage)}`;
 ["waLink", "waFloat", "waFooter"].forEach(id => {
   const el = document.getElementById(id);
-  if (el) el.href = waHref();
+  if (el) { el.href = waHref(); el.addEventListener("click", () => trackContact()); }
 });
+
+/* ============ ANALYTICS & AD TRACKING ============ */
+function loadGA4(id) {
+  const s = document.createElement("script");
+  s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + id;
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { window.dataLayer.push(arguments); };
+  window.gtag("js", new Date());
+  window.gtag("config", id);
+}
+function loadMetaPixel(id) {
+  !function (f, b, e, v, n, t, s) {
+    if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+    if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = "2.0"; n.queue = [];
+    t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+  }(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+  window.fbq("init", id); window.fbq("track", "PageView");
+}
+function loadTrackers() {
+  const A = CONFIG.analytics;
+  if (A.ga4Id) loadGA4(A.ga4Id);
+  if (A.metaPixelId) loadMetaPixel(A.metaPixelId);
+}
+// Fire a lead/conversion event across whichever trackers are active.
+function trackLead() {
+  if (window.gtag) window.gtag("event", "generate_lead", { event_category: "engagement" });
+  if (window.fbq) window.fbq("track", "Lead");
+}
+function trackContact() {
+  if (window.gtag) window.gtag("event", "contact");
+  if (window.fbq) window.fbq("track", "Contact");
+}
+
+(function initAnalytics() {
+  const A = CONFIG.analytics;
+  if (!A.ga4Id && !A.metaPixelId) return;                 // nothing configured → do nothing
+  const KEY = "solarise_consent";
+  const choice = localStorage.getItem(KEY);
+  if (!A.requireConsent || choice === "granted") { loadTrackers(); return; }
+  if (choice === "denied") return;
+
+  // Build a lightweight consent banner
+  const bar = document.createElement("div");
+  bar.className = "consent";
+  bar.setAttribute("role", "dialog");
+  bar.setAttribute("aria-label", "Cookie consent");
+  bar.innerHTML =
+    '<p>We use cookies to understand site traffic and improve our marketing. ' +
+    'You can accept or decline — essential site features work either way.</p>' +
+    '<div class="consent__row">' +
+    '<button class="btn btn--primary btn--sm" data-consent="granted">Accept</button>' +
+    '<button class="btn btn--ghost btn--sm" data-consent="denied">Decline</button>' +
+    '</div>';
+  bar.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-consent]"); if (!btn) return;
+    const val = btn.dataset.consent;
+    localStorage.setItem(KEY, val);
+    if (val === "granted") loadTrackers();
+    bar.remove();
+  });
+  document.body.appendChild(bar);
+})();
 
 /* ============ CALCULATOR ============ */
 const els = {
@@ -229,6 +305,7 @@ form.addEventListener("submit", async (e) => {
     if (opened) msg += " WhatsApp is opening so we can chat right away.";
     status.textContent = msg;
     status.className = "form__status ok";
+    trackLead();
     form.reset();
   } else {
     status.textContent = "Couldn't send automatically — please WhatsApp or call us and we'll sort it out.";
