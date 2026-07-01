@@ -371,5 +371,11 @@ if (finForm) {
   renderFinance();
 }
 
+/* ============ FOR-BUSINESS CTA ============ */
+document.getElementById("bizCta")?.addEventListener("click", () => {
+  const sel = document.getElementById("qSystem");
+  if (sel) [...sel.options].forEach(o => { if (o.text.includes("Commercial")) sel.value = o.value; });
+});
+
 /* ============ YEAR ============ */
 document.getElementById("year").textContent = new Date().getFullYear();
