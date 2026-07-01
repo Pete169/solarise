@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://solarisee.netlify.app/sitemap.xml

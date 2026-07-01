@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="warm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffb703"/>
+      <stop offset="1" stop-color="#ff8a00"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="82%" cy="10%" r="60%">
+      <stop offset="0" stop-color="#ff8a00" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#ff8a00" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0%" cy="80%" r="55%">
+      <stop offset="0" stop-color="#2dd4a7" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#2dd4a7" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0b1220"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+
+  <!-- brand -->
+  <g transform="translate(80 78)">
+    <rect width="52" height="52" rx="13" fill="#161f2e" stroke="#ffb703" stroke-opacity="0.35"/>
+    <circle cx="26" cy="26" r="10" fill="#ffb703"/>
+    <g stroke="#ffb703" stroke-width="3.4" stroke-linecap="round">
+      <path d="M26 5v5M26 42v5M5 26h5M42 26h5M11 11l3.4 3.4M37.6 37.6L41 41M41 11l-3.4 3.4M14.4 37.6L11 41"/>
+    </g>
+    <text x="70" y="36" font-family="Sora, Arial, sans-serif" font-size="34" font-weight="800" fill="#eaf0fb">SolaRise</text>
+  </g>
+
+  <!-- pill -->
+  <g transform="translate(80 190)">
+    <rect width="470" height="46" rx="23" fill="#ffb703" fill-opacity="0.10" stroke="#ffb703" stroke-opacity="0.3"/>
+    <text x="26" y="30" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="19" font-weight="600" fill="#ffd87a">☀ Independent solar advisors — not a one-brand shop</text>
+  </g>
+
+  <!-- headline -->
+  <text x="80" y="330" font-family="Sora, Arial, sans-serif" font-size="72" font-weight="800" fill="#eaf0fb">Reliable power,</text>
+  <text x="80" y="410" font-family="Sora, Arial, sans-serif" font-size="72" font-weight="800" fill="url(#warm)">designed around you.</text>
+
+  <!-- subline -->
+  <text x="80" y="470" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="26" font-weight="500" fill="#9fb0cc">Escape outages &amp; fuel bills — the right inverter, installed &amp; serviced. Nigeria.</text>
+
+  <!-- brand chips -->
+  <g font-family="Sora, Arial, sans-serif" font-size="20" font-weight="700" fill="#cdd8ec">
+    <g transform="translate(80 520)"><rect width="110" height="46" rx="23" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.09"/><text x="55" y="30" text-anchor="middle">Deye</text></g>
+    <g transform="translate(202 520)"><rect width="140" height="46" rx="23" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.09"/><text x="70" y="30" text-anchor="middle">Growatt</text></g>
+    <g transform="translate(354 520)"><rect width="140" height="46" rx="23" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.09"/><text x="70" y="30" text-anchor="middle">Felicity</text></g>
+    <g transform="translate(506 520)"><rect width="150" height="46" rx="23" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.09"/><text x="75" y="30" text-anchor="middle">Luminous</text></g>
+    <g transform="translate(668 520)"><rect width="130" height="46" rx="23" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.09"/><text x="65" y="30" text-anchor="middle">Victron</text></g>
+    <g transform="translate(810 520)"><rect width="110" height="46" rx="23" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.09"/><text x="55" y="30" text-anchor="middle">+ more</text></g>
+  </g>
+
+  <!-- CTA badge -->
+  <g transform="translate(930 150)">
+    <rect width="190" height="190" rx="95" fill="url(#warm)"/>
+    <text x="95" y="88" text-anchor="middle" font-family="Sora, Arial, sans-serif" font-size="22" font-weight="800" fill="#1a1200">FREE</text>
+    <text x="95" y="115" text-anchor="middle" font-family="Sora, Arial, sans-serif" font-size="22" font-weight="800" fill="#1a1200">CONSULT</text>
+    <text x="95" y="140" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="15" font-weight="600" fill="#1a1200" fill-opacity="0.75">no obligation</text>
+  </g>
+</svg>
