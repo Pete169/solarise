@@ -59,9 +59,11 @@ node server.js         # then visit http://localhost:4173
 - [x] Advisor voice + multi-brand positioning
 - [x] SEO + social share preview (og-image) + favicon
 - [x] Lead capture backend hook + spam honeypot
-- [ ] Paste your Formspree `captureEndpoint` (so leads hit your inbox)
-- [ ] Deploy + point a custom domain
-- [ ] Update the domain in the 3 places above
+- [x] Formspree `captureEndpoint` connected (leads hit tosin.peter@gmail.com)
+- [x] Deployed live on Netlify (solarisee.netlify.app)
+- [x] Domain updated in the 3 places (canonical, robots, sitemap)
+- [x] GitHub repo + continuous deployment (push to `main` → auto-deploy)
+- [ ] Point a custom domain (optional)
 - [ ] Swap gradient placeholders for real install photos
 - [ ] Update email + office address in the footer
 - [ ] Add Google Analytics / Meta Pixel for ad tracking
