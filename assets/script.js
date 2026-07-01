@@ -121,8 +121,8 @@ function trackContact() {
   bar.setAttribute("role", "dialog");
   bar.setAttribute("aria-label", "Cookie consent");
   bar.innerHTML =
-    '<p>We use cookies to understand site traffic and improve our marketing. ' +
-    'You can accept or decline — essential site features work either way.</p>' +
+    '<p>We use cookies to see how visitors use our site so we can keep making it better. ' +
+    'Essential features work either way — the choice is yours.</p>' +
     '<div class="consent__row">' +
     '<button class="btn btn--primary btn--sm" data-consent="granted">Accept</button>' +
     '<button class="btn btn--ghost btn--sm" data-consent="denied">Decline</button>' +
