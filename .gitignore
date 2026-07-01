@@ -6,5 +6,8 @@ Thumbs.db
 *.log
 .vscode/
 
+# Local Claude Code settings (machine-specific; may reference other projects)
+.claude/settings.local.json
+
 # Dependencies (none currently, but future-proofing)
 node_modules/
