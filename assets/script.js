@@ -22,7 +22,7 @@ const CONFIG = {
   analytics: {
     // Google Analytics 4 Measurement ID — get it free at analytics.google.com
     // (Admin → Data streams → your web stream). Looks like "G-XXXXXXXXXX".
-    ga4Id: "",
+    ga4Id: "G-M3KQ69Z61X",
     // Meta (Facebook/Instagram) Pixel ID — from business.facebook.com → Events Manager.
     // A numeric string like "1234567890123456". Needed for retargeting ads.
     metaPixelId: "",
