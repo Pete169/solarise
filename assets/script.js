@@ -59,12 +59,14 @@ const navLinks = document.getElementById("navLinks");
 
 window.addEventListener("scroll", () => nav.classList.toggle("scrolled", window.scrollY > 12));
 navToggle.addEventListener("click", () => {
-  navToggle.classList.toggle("open");
-  navLinks.classList.toggle("open");
+  const open = navToggle.classList.toggle("open");
+  navLinks.classList.toggle("open", open);
+  navToggle.setAttribute("aria-expanded", open);
 });
 navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
   navToggle.classList.remove("open");
   navLinks.classList.remove("open");
+  navToggle.setAttribute("aria-expanded", "false");
 }));
 
 /* ============ WHATSAPP LINKS ============ */
@@ -106,6 +108,14 @@ function trackContact() {
   if (window.gtag) window.gtag("event", "contact");
   if (window.fbq) window.fbq("track", "Contact");
 }
+// Which on-page tool did they engage with? Fired once per tool per visit,
+// so you can see which of the calculators/matcher actually produces leads.
+const toolsUsed = new Set();
+function trackTool(name) {
+  if (toolsUsed.has(name)) return;
+  toolsUsed.add(name);
+  if (window.gtag) window.gtag("event", "tool_engagement", { tool: name });
+}
 
 (function initAnalytics() {
   const A = CONFIG.analytics;
@@ -122,7 +132,8 @@ function trackContact() {
   bar.setAttribute("aria-label", "Cookie consent");
   bar.innerHTML =
     '<p>We use cookies to see how visitors use our site so we can keep making it better. ' +
-    'Essential features work either way — the choice is yours.</p>' +
+    'Essential features work either way — the choice is yours. ' +
+    '<a href="privacy.html">Privacy policy</a></p>' +
     '<div class="consent__row">' +
     '<button class="btn btn--primary btn--sm" data-consent="granted">Accept</button>' +
     '<button class="btn btn--ghost btn--sm" data-consent="denied">Decline</button>' +
@@ -134,7 +145,16 @@ function trackContact() {
     if (val === "granted") loadTrackers();
     bar.remove();
   });
-  document.body.appendChild(bar);
+  // Don't cover the hero CTAs the instant the page loads (it hides them on
+  // small screens) — show once the visitor scrolls, or after a few seconds.
+  let shown = false;
+  function showBanner() {
+    if (shown) return; shown = true;
+    window.removeEventListener("scroll", showBanner);
+    document.body.appendChild(bar);
+  }
+  window.addEventListener("scroll", showBanner, { passive: true, once: true });
+  setTimeout(showBanner, 4000);
 })();
 
 /* ============ CALCULATOR ============ */
@@ -206,7 +226,7 @@ function runCalc() {
   }
 }
 ["input", "change"].forEach(ev => {
-  document.getElementById("calcForm").addEventListener(ev, runCalc);
+  document.getElementById("calcForm").addEventListener(ev, () => { trackTool("savings_calculator"); runCalc(); });
 });
 runCalc();
 
@@ -222,6 +242,10 @@ function animateCount(el) {
   const target = parseFloat(el.dataset.count);
   const decimals = +(el.dataset.decimals || 0);
   const suffix = el.dataset.suffix || "";
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    el.textContent = target.toFixed(decimals) + suffix;
+    return;
+  }
   const dur = 1400; const start = performance.now();
   function tick(now) {
     const p = Math.min(1, (now - start) / dur);
@@ -250,7 +274,7 @@ document.querySelectorAll(".section, .hero__trust").forEach(el => { el.classList
 const form = document.getElementById("quoteForm");
 const status = document.getElementById("formStatus");
 
-form.addEventListener("submit", async (e) => {
+form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   // Honeypot: real users leave this hidden field empty; bots fill it.
@@ -260,6 +284,7 @@ form.addEventListener("submit", async (e) => {
   const data = {
     name: document.getElementById("qName").value.trim(),
     phone: document.getElementById("qPhone").value.trim(),
+    email: document.getElementById("qEmail").value.trim(),
     location: document.getElementById("qLocation").value.trim(),
     system: document.getElementById("qSystem").value,
     message: document.getElementById("qMsg").value.trim(),
@@ -277,41 +302,42 @@ form.addEventListener("submit", async (e) => {
     `Interested in: ${data.system}%0ANotes: ${data.message || "—"}`;
   const waUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${waText}`;
 
-  status.textContent = "Sending…";
-  status.className = "form__status";
-
-  let captured = false;
-  if (CONFIG.captureEndpoint) {
-    try {
-      const res = await fetch(CONFIG.captureEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(data),
-      });
-      captured = res.ok;
-    } catch (err) { captured = false; }   // network fail — WhatsApp still catches the lead
-  }
-
+  // Open WhatsApp synchronously, inside the tap gesture. Waiting on the
+  // network first gets the popup blocked on most mobile browsers — and
+  // mobile is where nearly all these leads come from.
   let opened = false;
   if (CONFIG.openWhatsAppOnSubmit) {
-    window.open(waUrl, "_blank");
-    opened = true;
+    opened = !!window.open(waUrl, "_blank");
   }
 
-  if (captured || opened) {
-    let msg = captured
-      ? "✅ Thanks! Your request is in — we'll reach out within 24 hours."
-      : "✅ Thanks! Sending your request now.";
-    if (opened) msg += " WhatsApp is opening so we can chat right away.";
-    status.textContent = msg;
-    status.className = "form__status ok";
-    trackLead();
-    form.reset();
-  } else {
-    status.textContent = "Couldn't send automatically — please WhatsApp or call us and we'll sort it out.";
-    status.className = "form__status err";
+  // Capture in the background; keepalive lets the request complete even if
+  // the browser switches away to the WhatsApp app mid-flight.
+  if (CONFIG.captureEndpoint) {
+    fetch(CONFIG.captureEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(data),
+      keepalive: true,
+    }).then(res => {
+      if (!res.ok && !opened) showSendError();
+    }).catch(() => { if (!opened) showSendError(); });
+  } else if (!opened) {
+    showSendError();
+    return;
   }
+
+  status.textContent = opened
+    ? "✅ Thanks! Your request is in — WhatsApp is opening so we can chat right away."
+    : "✅ Thanks! Your request is in — we'll reach out within 24 hours.";
+  status.className = "form__status ok";
+  trackLead();
+  form.reset();
 });
+
+function showSendError() {
+  status.textContent = "Couldn't send automatically — please WhatsApp or call us and we'll sort it out.";
+  status.className = "form__status err";
+}
 
 /* ============ BRAND MATCHER ============ */
 // Honest, advisor-style brand profiles. attrs scored 0–5 across four dimensions.
@@ -377,14 +403,22 @@ function renderMatch() {
   document.getElementById("mCta").dataset.brand = top.b.name;
 }
 
+// Option buttons announce their selected state to screen readers too
+document.querySelectorAll(".mq__opts button").forEach(b => b.setAttribute("aria-pressed", b.classList.contains("is-active")));
+function setActive(group, btn) {
+  group.querySelectorAll("button").forEach(b => { b.classList.remove("is-active"); b.setAttribute("aria-pressed", "false"); });
+  btn.classList.add("is-active");
+  btn.setAttribute("aria-pressed", "true");
+}
+
 const matcherForm = document.getElementById("matcherForm");
 if (matcherForm) {
   matcherForm.querySelectorAll(".mq__opts").forEach(group => {
     group.addEventListener("click", (e) => {
       const btn = e.target.closest("button"); if (!btn) return;
       mState[group.dataset.q] = btn.dataset.v;
-      group.querySelectorAll("button").forEach(b => b.classList.remove("is-active"));
-      btn.classList.add("is-active");
+      setActive(group, btn);
+      trackTool("brand_matcher");
       renderMatch();
     });
   });
@@ -434,13 +468,13 @@ if (finForm) {
     }
   }
 
-  finSel.addEventListener("change", () => { finState.system = finSel.value; renderFinance(); });
-  document.getElementById("finDown").addEventListener("input", (e) => { finState.downPct = +e.target.value; renderFinance(); });
+  finSel.addEventListener("change", () => { finState.system = finSel.value; trackTool("financing_calculator"); renderFinance(); });
+  document.getElementById("finDown").addEventListener("input", (e) => { finState.downPct = +e.target.value; trackTool("financing_calculator"); renderFinance(); });
   document.getElementById("finTenure").addEventListener("click", (e) => {
     const btn = e.target.closest("button"); if (!btn) return;
     finState.tenure = +btn.dataset.v;
-    document.querySelectorAll("#finTenure button").forEach(b => b.classList.remove("is-active"));
-    btn.classList.add("is-active");
+    setActive(document.getElementById("finTenure"), btn);
+    trackTool("financing_calculator");
     renderFinance();
   });
   // keep the fuel-comparison fresh if they change the savings calculator

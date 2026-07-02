@@ -63,11 +63,13 @@ node server.js         # then visit http://localhost:4173
 - [x] Deployed live on Netlify (solarisee.netlify.app)
 - [x] Domain updated in the 3 places (canonical, robots, sitemap)
 - [x] GitHub repo + continuous deployment (push to `main` → auto-deploy)
+- [x] Google Analytics 4 live (Meta Pixel still pending — add ID when running ads)
+- [x] Privacy policy page (`privacy.html`) — linked from footer + cookie banner
+- [x] Structured data (LocalBusiness + FAQ rich results)
 - [ ] Point a custom domain (optional)
 - [ ] Swap gradient placeholders for real install photos
 - [ ] Update email + office address in the footer
-- [ ] Add Google Analytics / Meta Pixel for ad tracking
-- [ ] Add real Google reviews / testimonials
+- [ ] Add real Google reviews / testimonials + set up a Google Business Profile
 
 ---
 _Update brand, pricing, contact and legal details to match your business before going live._

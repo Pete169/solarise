@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Privacy Policy — SolaRise</title>
+  <meta name="description" content="How SolaRise collects, uses, and protects your personal information." />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0b1220" />
+  <link rel="canonical" href="https://solarisee.netlify.app/privacy.html" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Sora:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="brand">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><circle cx="12" cy="12" r="5" fill="#ffb703"/><g stroke="#ffb703" stroke-width="2" stroke-linecap="round"><path d="M12 1v3M12 20v3M1 12h3M20 12h3M4 4l2 2M18 18l2 2M20 4l-2 2M6 18l-2 2"/></g></svg>
+        </span>
+        SolaRise
+      </a>
+      <a href="index.html" class="btn btn--sm btn--ghost">← Back to site</a>
+    </div>
+  </header>
+
+  <main class="legal">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: 2 July 2026</p>
+
+    <p>SolaRise ("we", "us") respects your privacy. This page explains what information we collect through this website, why we collect it, and the choices you have. We aim to comply with the Nigeria Data Protection Act (NDPA) 2023.</p>
+
+    <h2>What we collect</h2>
+    <ul>
+      <li><b>Enquiry details you send us</b> — when you request a consultation, we collect your name, phone number, location, the system you're interested in, anything you write in the message box, and your email address if you choose to add it.</li>
+      <li><b>WhatsApp messages</b> — if you contact us on WhatsApp, your chat is handled by WhatsApp under <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noopener">WhatsApp's own privacy policy</a>.</li>
+      <li><b>Usage analytics (only with your consent)</b> — if you accept cookies, we use Google Analytics to understand how visitors use the site (pages viewed, tools used, device type). This never includes what you type into our forms.</li>
+    </ul>
+
+    <h2>How we use it</h2>
+    <ul>
+      <li>To respond to your enquiry, arrange your free consultation, and provide quotes.</li>
+      <li>To improve the website based on how visitors use it.</li>
+      <li>We do <b>not</b> sell your personal information, and we don't add you to marketing lists without asking.</li>
+    </ul>
+
+    <h2>Who processes your data</h2>
+    <ul>
+      <li><b>Formspree</b> delivers your enquiry to our inbox (<a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener">Formspree privacy policy</a>).</li>
+      <li><b>Google Analytics</b> processes anonymous usage statistics, only after you accept cookies (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google privacy policy</a>).</li>
+    </ul>
+
+    <h2>Cookies &amp; your choices</h2>
+    <p>Analytics cookies load only if you tap "Accept" on our cookie banner. Declining changes nothing about how the site works for you. You can change your mind at any time:</p>
+    <p><a href="#" id="resetConsent">Reset my cookie choice</a> — the banner will show again on your next visit.</p>
+
+    <h2>How long we keep it</h2>
+    <p>We keep enquiry details for as long as needed to follow up and serve you as a customer. You can ask us to delete your details at any time.</p>
+
+    <h2>Your rights</h2>
+    <p>Under the NDPA you can ask us what information we hold about you, ask us to correct it, or ask us to delete it. Just message or call us using the details below.</p>
+
+    <h2>Contact</h2>
+    <p>Phone / WhatsApp: <a href="tel:+2347034394459">+234 703 439 4459</a></p>
+
+    <a class="back btn btn--primary" href="index.html">← Back to SolaRise</a>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__bottom"><span>© <span id="year"></span> SolaRise. All rights reserved.</span><span class="muted">Powering homes &amp; businesses across Nigeria.</span></div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("resetConsent").addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.removeItem("solarise_consent");
+      e.target.textContent = "Done — you'll be asked again next time you visit the site.";
+    });
+  </script>
+</body>
+</html>

@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
   <!-- ============ SEO ============ -->
   <title>SolaRise — Solar Inverter Solutions & Installation in Nigeria</title>
   <meta name="description" content="Independent solar advisors for Nigerian homes & businesses. We match you to the right inverter brand, size it properly, install it, and service it — so you escape outages and rising fuel bills. Free consultation." />
-  <meta name="keywords" content="solar inverter Nigeria, solar installation Lagos, hybrid inverter, solar for home Nigeria, generator alternative, Deye, Growatt, Felicity, solar battery Nigeria" />
   <meta name="author" content="SolaRise" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#0b1220" />
@@ -24,7 +23,7 @@
   <meta property="og:title" content="SolaRise — Reliable Solar Power, Designed Around You" />
   <meta property="og:description" content="Escape outages and rising fuel bills. Independent solar advisors who match your home or business to the right inverter — installed and serviced. Book a free consultation." />
   <meta property="og:url" content="https://solarisee.netlify.app/" />
-  <meta property="og:image" content="https://solarisee.netlify.app/assets/og-image.png" />
+  <meta property="og:image" content="https://solarisee.netlify.app/assets/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="en_NG" />
@@ -33,12 +32,49 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="SolaRise — Reliable Solar Power, Designed Around You" />
   <meta name="twitter:description" content="Independent solar advisors for Nigerian homes & businesses. The right brand, sized properly, installed and serviced." />
-  <meta name="twitter:image" content="https://solarisee.netlify.app/assets/og-image.png" />
+  <meta name="twitter:image" content="https://solarisee.netlify.app/assets/og-image.jpg" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Sora:wght@700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/styles.css" />
+
+  <!-- ============ STRUCTURED DATA (Google rich results) ============ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://solarisee.netlify.app/#business",
+    "name": "SolaRise",
+    "description": "Independent solar advisors for Nigerian homes and businesses. We match you to the right inverter brand, size it properly, install it, and service it.",
+    "url": "https://solarisee.netlify.app/",
+    "telephone": "+2347034394459",
+    "image": "https://solarisee.netlify.app/assets/og-image.jpg",
+    "priceRange": "₦₦",
+    "address": { "@type": "PostalAddress", "addressLocality": "Lagos", "addressCountry": "NG" },
+    "areaServed": { "@type": "Country", "name": "Nigeria" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "How long does installation take?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Most residential systems are installed and commissioned within 1–2 days after the survey and payment confirmation." } },
+      { "@type": "Question", "name": "Will it really replace my generator?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. A correctly sized hybrid system runs your home day and night, charging batteries from the sun and topping up from grid when needed — no fuel required." } },
+      { "@type": "Question", "name": "What if there's no sun for days?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Hybrid inverters can also charge batteries from the grid, so you stay powered even during extended cloudy periods." } },
+      { "@type": "Question", "name": "Do you offer payment plans?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes — we offer flexible plans from 6 to 24 months. Ask during your survey and we'll tailor one to your budget." } },
+      { "@type": "Question", "name": "What warranty do I get?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Up to 10 years on inverters, 5–10 years on lithium batteries, and 25-year performance warranty on panels, depending on package." } },
+      { "@type": "Question", "name": "Do you install outside my city?",
+        "acceptedAnswer": { "@type": "Answer", "text": "We cover major cities nationwide and can arrange installs in surrounding areas. Send your location and we'll confirm." } }
+    ]
+  }
+  </script>
 </head>
 <body>
   <!-- ============ NAV ============ -->
@@ -60,7 +96,7 @@
         <a href="#faq">FAQ</a>
         <a href="#quote" class="btn btn--sm btn--primary">Free Consultation</a>
       </nav>
-      <button class="nav__toggle" id="navToggle" aria-label="Open menu">
+      <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -472,7 +508,8 @@
 
       <form class="quote__form glass" id="quoteForm">
         <div class="field"><label for="qName">Full name</label><input type="text" id="qName" required placeholder="Your name" /></div>
-        <div class="field"><label for="qPhone">Phone / WhatsApp</label><input type="tel" id="qPhone" required placeholder="0801 234 5678" /></div>
+        <div class="field"><label for="qPhone">Phone / WhatsApp</label><input type="tel" id="qPhone" required inputmode="tel" autocomplete="tel" placeholder="0801 234 5678" /></div>
+        <div class="field"><label for="qEmail">Email <span class="muted">(optional — a backup in case we can't reach your phone)</span></label><input type="email" id="qEmail" inputmode="email" autocomplete="email" placeholder="you@example.com" /></div>
         <div class="field"><label for="qLocation">Location (city / area)</label><input type="text" id="qLocation" required placeholder="e.g. Lekki, Lagos" /></div>
         <div class="field"><label for="qSystem">Interested in</label>
           <select id="qSystem">
@@ -525,7 +562,7 @@
         </a>
         <p class="muted">Clean, reliable solar power — supplied, installed, and serviced. Power without limits.</p>
       </div>
-      <div><h4>Company</h4><a href="#systems">Systems</a><a href="#how">How it works</a><a href="#projects">Projects</a><a href="#faq">FAQ</a></div>
+      <div><h4>Company</h4><a href="#systems">Systems</a><a href="#how">How it works</a><a href="#projects">Projects</a><a href="#faq">FAQ</a><a href="privacy.html">Privacy policy</a></div>
       <div><h4>Contact</h4><a href="tel:+2347034394459">+234 703 439 4459</a><a href="mailto:hello@solarise.example">hello@solarise.example</a><a id="waFooter" href="#" target="_blank" rel="noopener">WhatsApp us</a></div>
       <div><h4>Visit</h4><p class="muted">123 Energy Way,<br/>Lekki, Lagos, Nigeria</p></div>
     </div>
